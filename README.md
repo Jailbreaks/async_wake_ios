@@ -13,13 +13,10 @@ See kdbg.c for details and implementation.
 
 The bugs:
 
-=== CVE-2017-13861 === <br>
-[https://bugs.chromium.org/p/project-zero/issues/detail?id=1417] <br>
+=== [CVE-2017-13861](https://bugs.chromium.org/p/project-zero/issues/detail?id=1417) === <br>
 
 I have previously detailed the lifetime management paradigms in MIG in the writeups for:
-CVE-2016-7612 [https://bugs.chromium.org/p/project-zero/issues/detail?id=926] <br>
-and <br>
-CVE-2016-7633 [https://bugs.chromium.org/p/project-zero/issues/detail?id=954] <br>
+[CVE-2016-7612](https://bugs.chromium.org/p/project-zero/issues/detail?id=926) and [CVE-2016-7633](https://bugs.chromium.org/p/project-zero/issues/detail?id=954) <br>
 
 If a MIG method returns KERN_SUCCESS it means that the method took ownership of *all* the arguments passed to it.
 If a MIG method returns an error code, then it took ownership of *none* of the arguments passed to it.
@@ -36,9 +33,8 @@ a port with the same callback function.
 The external method's error return value propagates via the return value of is_io_connect_async_method back to the
 MIG generated code which will drop a futher reference on the wake_port when only one was taken.
 
-I also use another bug: <br<
-=== CVE-2017-13865 === <br> 
-[https://bugs.chromium.org/p/project-zero/issues/detail?id=1372] <br>
+I also use another bug: <br>
+=== [CVE-2017-13865](https://bugs.chromium.org/p/project-zero/issues/detail?id=1372) === <br> 
 the kernel libproc API proc_list_uptrs has the following comment in it's userspace header:
 ```
 /*
