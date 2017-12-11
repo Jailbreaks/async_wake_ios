@@ -13,13 +13,13 @@ See kdbg.c for details and implementation.
 
 The bugs:
 
-=== CVE-2017-13861 ===
-[https://bugs.chromium.org/p/project-zero/issues/detail?id=1417]
+=== CVE-2017-13861 === <b>
+[https://bugs.chromium.org/p/project-zero/issues/detail?id=1417] <br>
 
 I have previously detailed the lifetime management paradigms in MIG in the writeups for:
-CVE-2016-7612 [https://bugs.chromium.org/p/project-zero/issues/detail?id=926]
-and
-CVE-2016-7633 [https://bugs.chromium.org/p/project-zero/issues/detail?id=954]
+CVE-2016-7612 [https://bugs.chromium.org/p/project-zero/issues/detail?id=926] <br>
+and <br>
+CVE-2016-7633 [https://bugs.chromium.org/p/project-zero/issues/detail?id=954] <br>
 
 If a MIG method returns KERN_SUCCESS it means that the method took ownership of *all* the arguments passed to it.
 If a MIG method returns an error code, then it took ownership of *none* of the arguments passed to it.
@@ -36,12 +36,11 @@ a port with the same callback function.
 The external method's error return value propagates via the return value of is_io_connect_async_method back to the
 MIG generated code which will drop a futher reference on the wake_port when only one was taken.
 
-I also use another bug:
-
-=== CVE-2017-13865 ===
-[https://bugs.chromium.org/p/project-zero/issues/detail?id=1372]
+I also use another bug: <br<
+=== CVE-2017-13865 === <br> 
+[https://bugs.chromium.org/p/project-zero/issues/detail?id=1372] <br>
 the kernel libproc API proc_list_uptrs has the following comment in it's userspace header:
-
+```
 /*
  * Enumerate potential userspace pointers embedded in kernel data structures.
  * Currently inspects kqueues only.
@@ -52,14 +51,14 @@ the kernel libproc API proc_list_uptrs has the following comment in it's userspa
  * Returns the number of pointers found (which may exceed buffersize), or -1 on
  * failure and errno set appropriately.
  */
-
+```
 This is a recent addition to the kernel, presumably as a debugging tool to help enumerate
 places where the kernel is accidentally disclosing pointers to userspace.
 
 The implementation currently enumerates kqueues and dumps a bunch of values from them.
 
 Here's the relevant code:
-
+```
 // buffer and buffersize are attacker controlled
 
 int
@@ -98,6 +97,7 @@ proc_pidlistuptrs(proc_t p, user_addr_t buffer, uint32_t buffersize, int32_t *re
     error = copyout(kbuf, buffer, copysize);  <--- (e)
   }
 
+```
 
 At (a) the attacker-supplied buffersize is divided by 8 to compute the maximum number of uint64_t's
 which can fit in there.
@@ -164,6 +164,6 @@ Porting to other devices:
 Getting tfp0 should work for all devices running 11.1.2, it only requires structure offsets, not kernel symbols, which are unlikely to change between devices.
 To port the PoC kernel debugger you need to find the correct symbols and update symbols.c, hints are given there.
 
-For further discussion of this bug and other exploit techniques see:
-http://blog.pangu.io/iosurfacerootuserclient-port-uaf/
+For further discussion of this bug and other exploit techniques see: <br>
+http://blog.pangu.io/iosurfacerootuserclient-port-uaf/ <br>
 https://siguza.github.io/v0rtex/
