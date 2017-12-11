@@ -13,7 +13,7 @@ See kdbg.c for details and implementation.
 
 The bugs:
 
-=== CVE-2017-13861 === <b>
+=== CVE-2017-13861 === <br>
 [https://bugs.chromium.org/p/project-zero/issues/detail?id=1417] <br>
 
 I have previously detailed the lifetime management paradigms in MIG in the writeups for:
